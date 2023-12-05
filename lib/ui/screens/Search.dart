@@ -10,7 +10,7 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   TextEditingController _searchController = TextEditingController();
   String _searchText = '';
-  List<String> _dataList = ['상훈이 애미', '상훈이 아버지', '❤️'];
+  List<String> _dataList = ['상훈이 애미', '상훈이 아버지', '❤️', '재국이애미', '재국이애비'];
 
   List<String> _filteredData() {
     return _dataList

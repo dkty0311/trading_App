@@ -48,7 +48,9 @@ class ItemDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('상세 페이지'),
+        title: Text(
+          '상세 페이지',
+        ),
       ),
       body: Center(
         child: Text('상세 페이지: $item'),

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:login_page_1/utils/net/model/response.dart';
 
 import 'package:http/http.dart' as http;
@@ -68,11 +67,14 @@ Future<ResponseWithMessage> updateImage(
   );
 
   request.headers.addAll({'Content-Type': 'multipart/form-data'});
+  print('ddd');
 
   request.files.add(await http.MultipartFile.fromPath(
     'file',
     updateImage,
   ));
+
+  print('333');
 
   var response = await http.Response.fromStream(await request.send());
 

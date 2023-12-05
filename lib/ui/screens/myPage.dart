@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -16,7 +15,9 @@ class myPage extends StatefulWidget {
 
 class _MyPageState extends State<myPage> {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
+
   String userId = "";
+  String imageUri = "";
   XFile? _image;
 
   final ImagePicker picker = ImagePicker();
@@ -39,7 +40,6 @@ class _MyPageState extends State<myPage> {
 
   Future<void> _loadUserProfile() async {
     String? storedUserId = await storage.read(key: "login");
-
     setState(() {
       // 불러온 사용자 ID를 변수에 할당
       userId = storedUserId ?? "Default User";
@@ -50,6 +50,9 @@ class _MyPageState extends State<myPage> {
 
       if (result.status == 200) {
         print("User profile loaded successfully: ${result.data['name']}");
+        print("User profile loaded successfully: ${result.data['profile']}");
+        imageUri = result.data['profile'];
+        print(imageUri);
       } else {
         // 서버 응답이 성공이 아닐 때의 처리
         print("Error loading user profile: ${result.data}");
@@ -81,7 +84,6 @@ class _MyPageState extends State<myPage> {
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            _buildPhotoArea(),
                             _buildButton(),
 
                             // TextButton(
@@ -107,10 +109,10 @@ class _MyPageState extends State<myPage> {
                           ],
                         )));
               },
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 radius: 100,
                 backgroundImage: NetworkImage(
-                    'https://previews.123rf.com/images/vrabelpeter1/vrabelpeter11201/vrabelpeter1120100286/12079396-흰색-배경에-고립-된-동그란-오렌지-슬라이스.jpg'),
+                    'http://3.39.231.7/user/profile?path=' + '$imageUri'),
               ),
             ),
             Text(
@@ -207,7 +209,7 @@ class _MyPageState extends State<myPage> {
           },
           child: Text("카메라"),
         ),
-        SizedBox(width: 30),
+        const SizedBox(width: 30),
         ElevatedButton(
           onPressed: () {
             getImage(ImageSource.gallery); //getImage 함수를 호출해서 갤러리에서 사진 가져오기
@@ -227,16 +229,17 @@ class _MyPageState extends State<myPage> {
     try {
       String base64Image1 = "";
 
-      if (null != _image) {
-        //_image1가 null 이 아니라면
-        final bytes = File(_image!.path).readAsBytesSync(); //image 를 byte로 불러옴
+      // if (null != _image) {
+      //   //_image1가 null 이 아니라면
+      //   final bytes = File(_image!.path).readAsBytesSync(); //image 를 byte로 불러옴
 
-        base64Image1 = base64Encode(
-            bytes); //불러온 byte를 base64 압축하여 base64Image1 변수에 저장 만약 null이였다면 가장 위에 선언된것처럼 공백으로 처리됨
-      }
+      //   base64Image1 = base64Encode(
+      //       bytes); //불러온 byte를 base64 압축하여 base64Image1 변수에 저장 만약 null이였다면 가장 위에 선언된것처럼 공백으로 처리됨
+      //   print(bytes);
+      // }
 
       ResponseWithMessage updateImageResult =
-          await updateImage(userId, base64Image1);
+          await updateImage(userId, _image!.path);
       print('2');
 
       switch (updateImageResult.status) {

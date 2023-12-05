@@ -52,7 +52,7 @@ class _MainViewState extends State<MainView> {
         controller: controller,
         itemBuilder: (context, index) {
           if (index == 0) {
-            return HomeScreen(
+            return LoginScreen(
               controller: controller,
             );
           } else if (index == 1) {

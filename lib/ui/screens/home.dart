@@ -5,7 +5,6 @@ import 'package:login_page_1/ui/screens/Second.dart';
 import 'package:login_page_1/ui/screens/Search.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // flutter_secure_storage 패키지
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.controller}) : super(key: key);
@@ -16,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static List<Widget> pages = <Widget>[myPage(), first(), Second(), Search()];
+  static List<Widget> pages = <Widget>[first(), Second(), Search(), myPage()];
 
   int _selectedIndex = 0;
   String? sessionValue;

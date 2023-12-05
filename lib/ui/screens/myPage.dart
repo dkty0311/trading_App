@@ -48,6 +48,8 @@ class _MyPageState extends State<myPage> {
       // 사용자 프로필을 가져오고 결과를 처리합니다.
       ResponseWithModel result = await searchProfile(userId);
 
+      setState(() {});
+
       if (result.status == 200) {
         print("User profile loaded successfully: ${result.data['name']}");
         print("User profile loaded successfully: ${result.data['profile']}");
@@ -85,27 +87,6 @@ class _MyPageState extends State<myPage> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             _buildButton(),
-
-                            // TextButton(
-                            //   onPressed: () {
-                            //     getImage(ImageSource.gallery);
-                            //   },
-                            //   child: const Text('사진 선택하기'),
-                            // ),
-                            // const SizedBox(
-                            //   width: double.infinity,
-                            //   height: 30,
-                            // ),
-                            // TextButton(
-                            //     onPressed: () {
-                            //       getImage(ImageSource.camera);
-                            //     },
-                            //     child: Text('사진 촬영하기')),
-                            // SizedBox(
-                            //   width: double.infinity,
-                            //   height: 30,
-                            // ),
-                            // TextButton(onPressed: null, child: Text('기본이미지 선택'))
                           ],
                         )));
               },
@@ -132,7 +113,153 @@ class _MyPageState extends State<myPage> {
               const Icon(Icons.person),
               const Padding(padding: EdgeInsets.all(35)),
               InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
+                        builder: (BuildContext) => AlertDialog(
+                            title: const Text('회원정보 수정'),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const TextField(
+                                      decoration: InputDecoration(
+                                        labelText: '이름',
+                                        hintText: '수정할 이름을 입력하세요',
+                                        labelStyle: TextStyle(
+                                          color: Color(0xFF755DC1),
+                                          fontSize: 15,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          borderSide: BorderSide(
+                                            width: 1,
+                                            color: Color(0xFF837E93),
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          borderSide: BorderSide(
+                                            width: 1,
+                                            color: Color(0xFF9F7BFF),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    const TextField(
+                                      decoration: InputDecoration(
+                                        labelText: '주소',
+                                        hintText: '수정할 주소를 입력하세요',
+                                        labelStyle: TextStyle(
+                                          color: Color(0xFF755DC1),
+                                          fontSize: 15,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          borderSide: BorderSide(
+                                            width: 1,
+                                            color: Color(0xFF837E93),
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          borderSide: BorderSide(
+                                            width: 1,
+                                            color: Color(0xFF9F7BFF),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    const TextField(
+                                      decoration: InputDecoration(
+                                        labelText: '휴대폰번호',
+                                        hintText: '수정할 휴대폰 번호를 입력하세요',
+                                        labelStyle: TextStyle(
+                                          color: Color(0xFF755DC1),
+                                          fontSize: 15,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          borderSide: BorderSide(
+                                            width: 1,
+                                            color: Color(0xFF837E93),
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          borderSide: BorderSide(
+                                            width: 1,
+                                            color: Color(0xFF9F7BFF),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    // ignore: prefer_const_constructors
+                                    TextField(
+                                      decoration: const InputDecoration(
+                                        labelText: '이메일',
+                                        hintText: '수정할 이메일을 입력하세요',
+                                        labelStyle: TextStyle(
+                                          color: Color(0xFF755DC1),
+                                          fontSize: 15,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          borderSide: BorderSide(
+                                            width: 1,
+                                            color: Color(0xFF837E93),
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          borderSide: BorderSide(
+                                            width: 1,
+                                            color: Color(0xFF9F7BFF),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    SizedBox(
+                                      width: 329,
+                                      height: 56,
+                                      child: ElevatedButton(
+                                          onPressed: () {},
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                const Color(0xFF9F7BFF),
+                                          ),
+                                          child: Text('저장')),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            )));
+                  },
                   child: const Text('회원정보 수정',
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
@@ -200,27 +327,36 @@ class _MyPageState extends State<myPage> {
   }
 
   Widget _buildButton() {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ElevatedButton(
+        FilledButton(
           onPressed: () {
             getImage(ImageSource.camera); //getImage 함수를 호출해서 카메라로 찍은 사진 가져오기
           },
-          child: Text("카메라"),
+          child: Text(
+            "카메라",
+          ),
         ),
-        const SizedBox(width: 30),
-        ElevatedButton(
+        const SizedBox(width: 10),
+        FilledButton(
           onPressed: () {
             getImage(ImageSource.gallery); //getImage 함수를 호출해서 갤러리에서 사진 가져오기
           },
           child: Text("갤러리"),
         ),
-        ElevatedButton(
+        const SizedBox(width: 10),
+        FilledButton(
             onPressed: () async {
               await write();
+              Navigator.pop(context);
             },
-            child: Text('완료'))
+            child: Text('완료')),
+        FilledButton(
+            onPressed: () async {
+              Navigator.pop(context);
+            },
+            child: Text('취소'))
       ],
     );
   }
@@ -240,8 +376,6 @@ class _MyPageState extends State<myPage> {
 
       ResponseWithMessage updateImageResult =
           await updateImage(userId, _image!.path);
-      print('2');
-
       switch (updateImageResult.status) {
         case 200:
           print('성공');

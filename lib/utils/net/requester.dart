@@ -86,6 +86,16 @@ Future<ResponseWithMessage> updateImage(
   );
 }
 
+//회원정보 수정
+Future<ResponseWithModel> updateUserInform(String userName, String userAddress,
+    String phoneNumber, String userEmail) async {
+  http.Response response = await http.get(Uri.parse("$host/user/$userName"),
+      headers: {"Content-Type": "application/json"});
+
+  String responseBody = utf8.decoder.convert(response.bodyBytes);
+  return ResponseWithModel.fromJson((responseBody), response.statusCode);
+}
+
 //회원가입
 Future<ResponseWithMessage> signUP(String userID, String password, String email,
     String idnum, String name, String phnum) async {
@@ -103,4 +113,16 @@ Future<ResponseWithMessage> signUP(String userID, String password, String email,
   String responseBody = utf8.decoder.convert(response.bodyBytes);
   return ResponseWithMessage.fromJson(
       json.decode(responseBody), response.statusCode);
+}
+
+Future<ResponseWithModel> recommendItems(
+  int start,
+  int finish,
+) async {
+  http.Response response = await http.get(
+      Uri.parse("$host/item/recommend?start=$start&count=$finish"),
+      headers: {"Content-Type": "application/json"});
+
+  String responseBody = utf8.decoder.convert(response.bodyBytes);
+  return ResponseWithModel.fromJson((responseBody), response.statusCode);
 }

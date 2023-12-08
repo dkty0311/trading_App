@@ -312,19 +312,19 @@ class _MyPageState extends State<myPage> {
     );
   }
 
-  Widget _buildPhotoArea() {
-    return _image != null
-        ? Container(
-            width: 300,
-            height: 300,
-            child: Image.file(File(_image!.path)), //가져온 이미지를 화면에 띄워주는 코드
-          )
-        : Container(
-            width: 300,
-            height: 300,
-            color: Colors.grey,
-          );
-  }
+  // Widget _buildPhotoArea() {
+  //   return _image != null
+  //       ? Container(
+  //           width: 300,
+  //           height: 300,
+  //           child: Image.file(File(_image!.path)), //가져온 이미지를 화면에 띄워주는 코드
+  //         )
+  //       : Container(
+  //           width: 300,
+  //           height: 300,
+  //           color: Colors.grey,
+  //         );
+  // }
 
   Widget _buildButton() {
     return Column(
@@ -363,8 +363,6 @@ class _MyPageState extends State<myPage> {
 
   write() async {
     try {
-      String base64Image1 = "";
-
       // if (null != _image) {
       //   //_image1가 null 이 아니라면
       //   final bytes = File(_image!.path).readAsBytesSync(); //image 를 byte로 불러옴

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:login_page_1/ui/screens/first.dart';
 import 'package:login_page_1/ui/screens/myPage.dart';
-import 'package:login_page_1/ui/screens/Second.dart';
+import 'package:login_page_1/ui/screens/second.dart';
 import 'package:login_page_1/ui/screens/Search.dart';
+import 'package:login_page_1/ui/screens/specificProduct.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -15,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static List<Widget> pages = <Widget>[first(), Second(), Search(), myPage()];
+  static List<Widget> pages = <Widget>[first(), second(), Search(), myPage()];
 
   int _selectedIndex = 0;
   String? sessionValue;

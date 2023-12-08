@@ -126,3 +126,14 @@ Future<ResponseWithModel> recommendItems(
   String responseBody = utf8.decoder.convert(response.bodyBytes);
   return ResponseWithModel.fromJson((responseBody), response.statusCode);
 }
+
+//아이템 검색하기
+Future<ResponseWithModel> searchItems(
+    String searchItemName, int start, int finish) async {
+  http.Response response = await http.get(
+      Uri.parse("$host/item/search/$searchItemName?start=$start&count=$finish"),
+      headers: {"Content-Type": "application/json"});
+
+  String responseBody = utf8.decoder.convert(response.bodyBytes);
+  return ResponseWithModel.fromJson((responseBody), response.statusCode);
+}

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:login_page_1/utils/productClass.dart';
+
+import 'package:login_page_1/ui/screens/specificProduct.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,42 +20,13 @@ class ResponseWithModel {
   }
 }
 
-class Product {
-  final int seq;
-  final String name;
-  final String createdAt;
-  final int price;
-  final int savedCnt;
-  final String? imagePath;
-
-  Product({
-    required this.seq,
-    required this.name,
-    required this.createdAt,
-    required this.price,
-    required this.savedCnt,
-    required this.imagePath,
-  });
-
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      seq: json['seq'],
-      name: json['name'],
-      createdAt: json['created_at'],
-      price: json['price'],
-      savedCnt: json['saved_cnt'],
-      imagePath: json['image_path'],
-    );
-  }
-}
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Product List'),
+          title: const Text('Product List'),
         ),
         body: first(),
       ),
@@ -111,27 +85,74 @@ class first extends StatelessWidget {
               childAspectRatio: 1 / 2,
             ),
             itemCount: products.length,
-            itemBuilder: (context, index) => Card(
-              margin: const EdgeInsets.all(8),
-              elevation: 8,
-              child: GridTile(
-                header: GridTileBar(
-                  backgroundColor: Color(0xFF755DC1),
-                  title: Text(products[index].name),
-                  subtitle: Text(products[index].createdAt),
-                ),
-                footer: GridTileBar(
-                  backgroundColor: Colors.blue.shade100,
-                  title: Text('(하트)${products[index].savedCnt}'),
-                  subtitle: Text(
-                    '${products[index].price}\원',
-                    style: const TextStyle(color: Colors.black),
+            itemBuilder: (context, index) => GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        SpecificProductScreen(product: products[index]),
                   ),
-                ),
-                child: Center(
-                  child: Text(
-                    'Item ${products[index].seq}',
-                    style: const TextStyle(fontSize: 16),
+                );
+              },
+
+              // showDialog(
+              //   context: context,
+              //   builder: (context) => AlertDialog(
+              //     title: Text('게시물 자세히 보기'),
+              //     content: Column(
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         if (products[index].imagePath != null)
+              //           Image.network(
+              //               'http://3.39.231.7/item/images?path=${products[index].imagePath}'),
+              //         Text('Seq: ${products[index].seq}'),
+              //         Text('Name: ${products[index].name}'),
+              //         Text('Created At: ${products[index].createdAt}'),
+              //         Text('Price: ${products[index].price}\원'),
+              //         Text('Saved Count: ${products[index].savedCnt}'),
+              //         // 이미지 표시
+              //       ],
+              //     ),
+              //     actions: [
+              //       TextButton(onPressed: () {}, child: Text('구매')),
+              //       TextButton(
+              //         onPressed: () {
+              //           Navigator.pop(context); // AlertDialog 닫기
+              //         },
+              //         child: Text('취소'),
+              //       ),
+              //     ],
+              //   ),
+              // );
+
+              child: Card(
+                margin: const EdgeInsets.all(8),
+                elevation: 8,
+                child: GridTile(
+                  header: GridTileBar(
+                    backgroundColor: Color(0xFF755DC1),
+                    title: Text(products[index].name),
+                    subtitle: Text(products[index].createdAt),
+                  ),
+                  footer: GridTileBar(
+                    backgroundColor: Colors.blue.shade100,
+                    title: Text('(하트)${products[index].savedCnt}'),
+                    subtitle: Text(
+                      '${products[index].price}\원',
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  ),
+                  child: Center(
+                    child: CircleAvatar(
+                      radius: 100,
+                      backgroundImage: NetworkImage(
+                          'http://3.39.231.7/item/images?path=${products[index].imagePath}'),
+                    ),
+                    // child: Text(
+                    //   'Item ${products[index].seq}',
+                    //   style: const TextStyle(fontSize: 16),
+                    // ),
                   ),
                 ),
               ),

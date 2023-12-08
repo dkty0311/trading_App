@@ -95,37 +95,6 @@ class first extends StatelessWidget {
                   ),
                 );
               },
-
-              // showDialog(
-              //   context: context,
-              //   builder: (context) => AlertDialog(
-              //     title: Text('게시물 자세히 보기'),
-              //     content: Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         if (products[index].imagePath != null)
-              //           Image.network(
-              //               'http://3.39.231.7/item/images?path=${products[index].imagePath}'),
-              //         Text('Seq: ${products[index].seq}'),
-              //         Text('Name: ${products[index].name}'),
-              //         Text('Created At: ${products[index].createdAt}'),
-              //         Text('Price: ${products[index].price}\원'),
-              //         Text('Saved Count: ${products[index].savedCnt}'),
-              //         // 이미지 표시
-              //       ],
-              //     ),
-              //     actions: [
-              //       TextButton(onPressed: () {}, child: Text('구매')),
-              //       TextButton(
-              //         onPressed: () {
-              //           Navigator.pop(context); // AlertDialog 닫기
-              //         },
-              //         child: Text('취소'),
-              //       ),
-              //     ],
-              //   ),
-              // );
-
               child: Card(
                 margin: const EdgeInsets.all(8),
                 elevation: 8,

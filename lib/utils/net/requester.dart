@@ -137,3 +137,13 @@ Future<ResponseWithModel> searchItems(
   String responseBody = utf8.decoder.convert(response.bodyBytes);
   return ResponseWithModel.fromJson((responseBody), response.statusCode);
 }
+
+//아이템 모든 이미지 경로 조회
+Future<ResponseWithModel> searchImage(int item_seq) async {
+  http.Response response = await http.get(
+      Uri.parse("$host/item/images/{$item_seq}"),
+      headers: {"Content-Type": "application/json"});
+
+  String responseBody = utf8.decoder.convert(response.bodyBytes);
+  return ResponseWithModel.fromJson((responseBody), response.statusCode);
+}

@@ -112,16 +112,17 @@ class second extends StatelessWidget {
                     ),
                   ),
                   child: Center(
-                    child: CircleAvatar(
-                      radius: 100,
-                      backgroundImage: NetworkImage(
-                          'http://3.39.231.7/item/images?path=${products[index].imagePath}'),
-                    ),
-                    // child: Text(
-                    //   'Item ${products[index].seq}',
-                    //   style: const TextStyle(fontSize: 16),
-                    // ),
-                  ),
+                      child: Image.network(
+                    'http://3.39.231.7/item/images?path=${products[index].imagePath}',
+                    width: double.infinity,
+                    height: 400,
+                    fit: BoxFit.fill,
+                  )
+                      // child: Text(
+                      //   'Item ${products[index].seq}',
+                      //   style: const TextStyle(fontSize: 16),
+                      // ),
+                      ),
                 ),
               ),
             ),

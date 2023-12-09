@@ -146,3 +146,13 @@ Future<ResponseWithModel> searchItems(String item) async {
   String responseBody = utf8.decoder.convert(response.bodyBytes);
   return ResponseWithModel.fromJson((responseBody), response.statusCode);
 }
+
+//좋아요
+Future<ResponseWithModel> productLike(String userId, int itemSeq) async {
+  http.Response response = await http.post(
+      Uri.parse("$host/user/items/update?user_id=$userId&item_seq=$itemSeq"),
+      headers: {"Content-Type": "application/json"});
+
+  String responseBody = utf8.decoder.convert(response.bodyBytes);
+  return ResponseWithModel.fromJson((responseBody), response.statusCode);
+}

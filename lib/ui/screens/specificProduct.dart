@@ -15,6 +15,7 @@ class SpecificProductScreen extends StatefulWidget {
 
 class _SpecificProductScreenState extends State<SpecificProductScreen> {
   late Map<String, dynamic> data;
+  bool isLiked = false;
 
   @override
   void initState() {
@@ -41,10 +42,20 @@ class _SpecificProductScreenState extends State<SpecificProductScreen> {
           '상세페이지',
           style: TextStyle(fontWeight: FontWeight.w700, fontFamily: 'Poppins'),
         ),
-        backgroundColor: Color(0xFF755DC1),
+        backgroundColor: const Color(0xFF755DC1),
         elevation: 0.0,
         centerTitle: false,
-        actions: [IconButton(icon: Icon(Icons.logout), onPressed: () {})],
+        actions: [
+          IconButton(icon: Icon(Icons.logout), onPressed: () {}),
+          IconButton(
+            icon: Icon(isLiked ? Icons.favorite : Icons.favorite_border),
+            onPressed: () {
+              setState(() {
+                isLiked = !isLiked;
+              });
+            },
+          ),
+        ],
       ),
       body: FutureBuilder<Map<String, dynamic>>(
         future: fetchData(),
@@ -86,25 +97,27 @@ class _SpecificProductScreenState extends State<SpecificProductScreen> {
                     ),
                   ),
                   Container(
-                    color: Colors.red,
-                    padding: EdgeInsets.all(8.0),
+                    width: double.infinity,
+                    height: 10,
+                    padding: EdgeInsets.all(5.0),
                     child: Text(
                       '제품번호 : ${widget.product.seq}',
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
                         fontFamily: 'Poppins',
                       ),
                     ),
                   ),
                   Container(
-                    color: Colors.amber,
-                    padding: EdgeInsets.all(8.0),
                     width: double.infinity,
-                    height: 400,
+                    height: 80,
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
-                      '상품명 : ${widget.product.name}',
+                      '${widget.product.name}',
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
                         fontFamily: 'Poppins',
                       ),
                     ),

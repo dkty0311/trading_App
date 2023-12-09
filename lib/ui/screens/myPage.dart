@@ -14,7 +14,6 @@ class myPage extends StatefulWidget {
 class _MyPageState extends State<myPage> {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
   final _nameEditController = TextEditingController();
-  final _addressEditController = TextEditingController();
   final _phoneNumberEditController = TextEditingController();
   final _emailEditController = TextEditingController();
 
@@ -129,7 +128,7 @@ class _MyPageState extends State<myPage> {
                                   children: [
                                     TextField(
                                       controller: _nameEditController,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         labelText: '이름',
                                         hintText: '수정할 이름을 입력하세요',
                                         labelStyle: TextStyle(
@@ -157,36 +156,8 @@ class _MyPageState extends State<myPage> {
                                       ),
                                     ),
                                     SizedBox(height: 10),
-                                    const TextField(
-                                      decoration: InputDecoration(
-                                        labelText: '주소',
-                                        hintText: '수정할 주소를 입력하세요',
-                                        labelStyle: TextStyle(
-                                          color: Color(0xFF755DC1),
-                                          fontSize: 15,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                          borderSide: BorderSide(
-                                            width: 1,
-                                            color: Color(0xFF837E93),
-                                          ),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                          borderSide: BorderSide(
-                                            width: 1,
-                                            color: Color(0xFF9F7BFF),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    const TextField(
+                                    TextField(
+                                      controller: _phoneNumberEditController,
                                       decoration: InputDecoration(
                                         labelText: '휴대폰번호',
                                         hintText: '수정할 휴대폰 번호를 입력하세요',
@@ -217,6 +188,7 @@ class _MyPageState extends State<myPage> {
                                     SizedBox(height: 10),
                                     // ignore: prefer_const_constructors
                                     TextField(
+                                      controller: _emailEditController,
                                       decoration: const InputDecoration(
                                         labelText: '이메일',
                                         hintText: '수정할 이메일을 입력하세요',
@@ -251,7 +223,27 @@ class _MyPageState extends State<myPage> {
                                       width: 329,
                                       height: 56,
                                       child: ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () async {
+                                            ResponseWithModel updateInfo =
+                                                await updateUserInform(
+                                                    userId,
+                                                    _nameEditController.text,
+                                                    _phoneNumberEditController
+                                                        .text,
+                                                    _emailEditController.text);
+                                            switch (updateInfo.status) {
+                                              case 200:
+                                                {
+                                                  Navigator.pop(context);
+                                                }
+                                              case 401:
+                                                print(updateInfo.status);
+                                            }
+
+                                            switch (updateInfo.status) {
+                                              case 200:
+                                            }
+                                          },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor:
                                                 const Color(0xFF9F7BFF),

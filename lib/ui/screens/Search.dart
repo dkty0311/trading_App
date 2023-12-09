@@ -84,6 +84,8 @@ class _SearchState extends State<Search> {
                 setState(() {
                   _searchText = value;
                 });
+                // 검색어가 변경될 때마다 검색 수행
+                searchItems(_searchText);
               },
               decoration: const InputDecoration(
                 hintText: '검색어를 입력하세요',
@@ -92,18 +94,8 @@ class _SearchState extends State<Search> {
               ),
             ),
             SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                // '검색' 버튼이 눌렸을 때만 Future가 실행되도록 함
-                setState(() {
-                  _searchResult = []; // 검색을 시작하기 전에 결과를 초기화
-                });
-                searchItems(_searchText);
-              },
-              child: Text('검색'),
-            ),
             Expanded(
-              child: _searchText.isEmpty
+              child: _searchResult.isNotEmpty
                   ? ListView.builder(
                       itemCount: _searchResult.length,
                       itemBuilder: (context, index) {
@@ -112,28 +104,9 @@ class _SearchState extends State<Search> {
                         );
                       },
                     )
-                  : FutureBuilder<void>(
-                      future: searchItems(_searchText),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text('검색 중 오류가 발생했습니다.');
-                        } else {
-                          return _searchResult.isNotEmpty
-                              ? ListView.builder(
-                                  itemCount: _searchResult.length,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      title: Text(_searchResult[index].name),
-                                    );
-                                  },
-                                )
-                              : Text('검색 결과 없음');
-                        }
-                      },
-                    ),
+                  : _searchText.isNotEmpty
+                      ? Text('검색 결과 없음')
+                      : SizedBox(),
             ),
           ],
         ),

@@ -87,9 +87,11 @@ Future<ResponseWithMessage> updateImage(
 }
 
 //회원정보 수정
-Future<ResponseWithModel> updateUserInform(String userName, String userAddress,
+Future<ResponseWithModel> updateUserInform(String userId, String userName,
     String phoneNumber, String userEmail) async {
-  http.Response response = await http.get(Uri.parse("$host/user/$userName"),
+  http.Response response = await http.post(
+      Uri.parse(
+          "$host/user/update?user_id=$userId&name=$userName&email=$userEmail&phone=$phoneNumber"),
       headers: {"Content-Type": "application/json"});
 
   String responseBody = utf8.decoder.convert(response.bodyBytes);

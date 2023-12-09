@@ -1,4 +1,34 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class DataModel {
+  final int seq;
+  final String name;
+
+  DataModel({required this.seq, required this.name});
+
+  factory DataModel.fromJson(Map<String, dynamic> json) {
+    return DataModel(
+      seq: json['seq'] ?? 0,
+      name: json['name'] ?? '',
+    );
+  }
+}
+
+class ResponseWithModel {
+  final List<DataModel> data;
+
+  ResponseWithModel({required this.data});
+
+  factory ResponseWithModel.fromJson(List<dynamic> json) {
+    List<DataModel> dataList = json.map((item) {
+      return DataModel.fromJson(item);
+    }).toList();
+
+    return ResponseWithModel(data: dataList);
+  }
+}
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -10,25 +40,42 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   TextEditingController _searchController = TextEditingController();
   String _searchText = '';
-  List<String> _dataList = ['상훈이 애미', '상훈이 아버지', '❤️', '재국이애미', '재국이'];
+  List<DataModel> _searchResult = [];
 
-  List<String> _filteredData() {
-    return _dataList
-        .where((item) => item.toLowerCase().contains(_searchText.toLowerCase()))
-        .toList();
+  Future<void> searchItems(String item) async {
+    String host = 'http://3.39.231.7'; // 호스트 URL을 넣어주세요
+    try {
+      http.Response response = await http.get(
+        Uri.parse("$host/item/search/$item?start=0&count=10"),
+        headers: {"Content-Type": "application/json"},
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> responseBody = json.decode(response.body);
+        ResponseWithModel responseModel =
+            ResponseWithModel.fromJson(responseBody);
+
+        setState(() {
+          _searchResult = responseModel.data;
+        });
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print('Error: $e');
+      // 에러 처리
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> filteredList = _filteredData();
-
     return Scaffold(
       body: Container(
         width: double.infinity,
         color: Colors.white,
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // 검색창을 시작 부분에 정렬
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
               controller: _searchController,
@@ -43,16 +90,46 @@ class _SearchState extends State<Search> {
                 filled: true,
               ),
             ),
-            SizedBox(height: 16.0), // 원하는 간격을 추가해 줄 수 있습니다.
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                // '검색' 버튼이 눌렸을 때 searchItems 함수 호출
+                searchItems(_searchText);
+              },
+              child: Text('검색'),
+            ),
             Expanded(
-              child: ListView.builder(
-                itemCount: filteredList.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(filteredList[index]),
-                  );
-                },
-              ),
+              child: _searchText.isEmpty
+                  ? ListView.builder(
+                      itemCount: _searchResult.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(_searchResult[index].name),
+                        );
+                      },
+                    )
+                  : FutureBuilder<void>(
+                      future: searchItems(_searchText),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('검색 중 오류가 발생했습니다.');
+                        } else {
+                          return _searchResult.isNotEmpty
+                              ? ListView.builder(
+                                  itemCount: _searchResult.length,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      title: Text(_searchResult[index].name),
+                                    );
+                                  },
+                                )
+                              : Text('검색 결과 없음');
+                        }
+                      },
+                    ),
             ),
           ],
         ),

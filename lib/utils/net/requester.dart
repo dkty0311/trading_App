@@ -127,21 +127,20 @@ Future<ResponseWithModel> recommendItems(
   return ResponseWithModel.fromJson((responseBody), response.statusCode);
 }
 
-//아이템 검색하기
-Future<ResponseWithModel> searchItems(
-    String searchItemName, int start, int finish) async {
+//아이템 모든 이미지 경로 조회
+Future<ResponseWithModel> searchImage(int item_seq) async {
   http.Response response = await http.get(
-      Uri.parse("$host/item/search/$searchItemName?start=$start&count=$finish"),
+      Uri.parse("$host/item/images/{$item_seq}"),
       headers: {"Content-Type": "application/json"});
 
   String responseBody = utf8.decoder.convert(response.bodyBytes);
   return ResponseWithModel.fromJson((responseBody), response.statusCode);
 }
 
-//아이템 모든 이미지 경로 조회
-Future<ResponseWithModel> searchImage(int item_seq) async {
+//검색
+Future<ResponseWithModel> searchItems(String item) async {
   http.Response response = await http.get(
-      Uri.parse("$host/item/images/{$item_seq}"),
+      Uri.parse("$host/item/search/$item?start=0&count=10"),
       headers: {"Content-Type": "application/json"});
 
   String responseBody = utf8.decoder.convert(response.bodyBytes);

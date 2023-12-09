@@ -14,32 +14,23 @@ class SpecificProductScreen extends StatefulWidget {
 }
 
 class _SpecificProductScreenState extends State<SpecificProductScreen> {
-  late Future<List<String>> imagePaths;
+  late Map<String, dynamic> data;
 
   @override
   void initState() {
     super.initState();
-    imagePaths = fetchData();
+    fetchData().then((value) {
+      setState(() {
+        data = value;
+      });
+    });
   }
 
-  Future<List<String>> fetchData() async {
+  Future<Map<String, dynamic>> fetchData() async {
     http.Response response = await http.get(
-      Uri.parse("http://3.39.231.7/item/images/${widget.product.seq}"),
-      headers: {"Content-Type": "application/json"},
-    );
-
-    if (response.statusCode == 200) {
-      List<Map<String, dynamic>> data =
-          List<Map<String, dynamic>>.from(jsonDecode(response.body));
-
-      List<String> paths = data.map((image) {
-        return 'http://3.39.231.7/item/images/?path=${image["path"]}&index=${image["index"]}';
-      }).toList();
-
-      return paths;
-    } else {
-      throw Exception('Failed to load image paths');
-    }
+        Uri.parse("http://3.39.231.7/item?item_seq=${widget.product.seq}"));
+    Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+    return data;
   }
 
   @override
@@ -55,15 +46,20 @@ class _SpecificProductScreenState extends State<SpecificProductScreen> {
         centerTitle: false,
         actions: [IconButton(icon: Icon(Icons.logout), onPressed: () {})],
       ),
-      body: FutureBuilder<List<String>>(
-        future: imagePaths,
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: fetchData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
+            // 데이터 로딩 중에 보여질 위젯
             return CircularProgressIndicator();
           } else if (snapshot.hasError) {
+            // 에러가 발생했을 때 보여질 위젯
             return Text('Error: ${snapshot.error}');
           } else {
-            List<String> imagePaths = snapshot.data!;
+            // 데이터를 성공적으로 가져왔을 때의 처리
+            Map<String, dynamic> data = snapshot.data!;
+            List<Map<String, dynamic>> images =
+                List<Map<String, dynamic>>.from(data["images"]);
 
             return SingleChildScrollView(
               child: Column(
@@ -71,9 +67,9 @@ class _SpecificProductScreenState extends State<SpecificProductScreen> {
                 children: [
                   // 이미지 슬라이더
                   CarouselSlider(
-                    items: imagePaths.map((imagePath) {
+                    items: images.map((image) {
                       return Image.network(
-                        imagePath,
+                        'http://3.39.231.7/item/images/?path=${image["path"]}&index=${image["index"]}',
                         width: double.infinity,
                         height: 400,
                         fit: BoxFit.cover,
@@ -100,8 +96,33 @@ class _SpecificProductScreenState extends State<SpecificProductScreen> {
                       ),
                     ),
                   ),
-                  Text('상품명 : ${widget.product.name}'),
-                  Text('상품설명 : ${widget.product.description}'),
+                  Container(
+                    color: Colors.amber,
+                    padding: EdgeInsets.all(8.0),
+                    width: double.infinity,
+                    height: 400,
+                    child: Text(
+                      '상품명 : ${widget.product.name}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                  ),
+                  Container(
+                    color: Colors.amber,
+                    padding: EdgeInsets.all(8.0),
+                    width: double.infinity,
+                    height: 400,
+                    child: Text(
+                      '상품설명 : ${data["description"]}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                  ),
+                  Text('상품설명 : ${data["description"]}'),
                   // 다른 필요한 정보들을 추가하세요
                 ],
               ),

@@ -5,7 +5,6 @@ class Product {
   final int price;
   final int savedCnt;
   final String? imagePath;
-  final String? description;
 
   Product(
       {required this.seq,
@@ -13,8 +12,7 @@ class Product {
       required this.createdAt,
       required this.price,
       required this.savedCnt,
-      required this.imagePath,
-      required this.description});
+      required this.imagePath});
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
@@ -23,7 +21,6 @@ class Product {
         createdAt: json['created_at'],
         price: json['price'],
         savedCnt: json['saved_cnt'],
-        imagePath: json['image_path'],
-        description: json['description']);
+        imagePath: json['image_path']);
   }
 }

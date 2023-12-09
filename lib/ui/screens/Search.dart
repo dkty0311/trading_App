@@ -51,7 +51,8 @@ class _SearchState extends State<Search> {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> responseBody = json.decode(response.body);
+        List<dynamic> responseBody =
+            jsonDecode(utf8.decode(response.bodyBytes));
         ResponseWithModel responseModel =
             ResponseWithModel.fromJson(responseBody);
 
@@ -93,7 +94,10 @@ class _SearchState extends State<Search> {
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                // '검색' 버튼이 눌렸을 때 searchItems 함수 호출
+                // '검색' 버튼이 눌렸을 때만 Future가 실행되도록 함
+                setState(() {
+                  _searchResult = []; // 검색을 시작하기 전에 결과를 초기화
+                });
                 searchItems(_searchText);
               },
               child: Text('검색'),

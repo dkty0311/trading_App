@@ -13,6 +13,10 @@ class myPage extends StatefulWidget {
 
 class _MyPageState extends State<myPage> {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
+  final _nameEditController = TextEditingController();
+  final _addressEditController = TextEditingController();
+  final _phoneNumberEditController = TextEditingController();
+  final _emailEditController = TextEditingController();
 
   String userId = "";
   String imageUri = "";
@@ -123,7 +127,8 @@ class _MyPageState extends State<myPage> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const TextField(
+                                    TextField(
+                                      controller: _nameEditController,
                                       decoration: InputDecoration(
                                         labelText: '이름',
                                         hintText: '수정할 이름을 입력하세요',

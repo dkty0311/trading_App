@@ -98,23 +98,38 @@ class _SpecificProductScreenState extends State<SpecificProductScreen> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 10,
+                    height: 30,
                     padding: EdgeInsets.all(5.0),
                     child: Text(
                       '제품번호 : ${widget.product.seq}',
                       style: TextStyle(
                         fontSize: 15,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    thickness: 1,
+                    color: Colors.grey,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.only(left: 5),
+                    child: Text(
+                      '${widget.product.name}',
+                      style: TextStyle(
+                        fontSize: 35,
+                        fontWeight: FontWeight.w900,
                         fontFamily: 'Poppins',
                       ),
                     ),
                   ),
                   Container(
                     width: double.infinity,
-                    height: 80,
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.only(left: 5),
                     child: Text(
-                      '${widget.product.name}',
+                      '${widget.product.price}원',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -122,11 +137,14 @@ class _SpecificProductScreenState extends State<SpecificProductScreen> {
                       ),
                     ),
                   ),
+
+                  Divider(
+                    thickness: 1,
+                    color: Colors.grey,
+                  ),
+
                   Container(
-                    color: Colors.amber,
-                    padding: EdgeInsets.all(8.0),
                     width: double.infinity,
-                    height: 400,
                     child: Text(
                       '상품설명 : ${data["description"]}',
                       style: TextStyle(
@@ -135,7 +153,6 @@ class _SpecificProductScreenState extends State<SpecificProductScreen> {
                       ),
                     ),
                   ),
-                  Text('상품설명 : ${data["description"]}'),
                   // 다른 필요한 정보들을 추가하세요
                 ],
               ),

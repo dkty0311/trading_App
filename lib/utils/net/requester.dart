@@ -74,8 +74,6 @@ Future<ResponseWithMessage> updateImage(
     updateImage,
   ));
 
-  print('333');
-
   var response = await http.Response.fromStream(await request.send());
 
   String responseBody = utf8.decoder.convert(response.bodyBytes);

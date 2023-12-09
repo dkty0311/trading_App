@@ -78,20 +78,37 @@ class _SearchState extends State<Search> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: _searchController,
-              onChanged: (value) {
-                setState(() {
-                  _searchText = value;
-                });
-                // 검색어가 변경될 때마다 검색 수행
-                searchItems(_searchText);
-              },
-              decoration: const InputDecoration(
-                hintText: '검색어를 입력하세요',
-                fillColor: Colors.white,
-                filled: true,
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: (value) {
+                      setState(() {
+                        _searchText = value;
+                      });
+                      // 검색어가 변경될 때마다 검색 수행
+                      searchItems(_searchText);
+                    },
+                    decoration: const InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 3, color: Color(0xFF9F7BFF))),
+                      hintText: '검색어를 입력하세요',
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8.0),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('검색'),
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size(70, 60),
+                      backgroundColor: const Color(0xFF9F7BFF)),
+                ),
+              ],
             ),
             SizedBox(height: 16.0),
             Expanded(
@@ -100,7 +117,16 @@ class _SearchState extends State<Search> {
                       itemCount: _searchResult.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title: Text(_searchResult[index].name),
+                          title: TextButton(
+                              onPressed: () {},
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  _searchResult[index].name,
+                                  style: TextStyle(
+                                      fontSize: 17, color: Colors.black),
+                                ),
+                              )),
                         );
                       },
                     )
